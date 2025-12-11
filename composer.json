@@ -1,0 +1,17 @@
+{
+    "name": "det/members",
+    "description": "Laravel Member System API",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Det\\Members\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "det"
+        }
+    ],
+    "require": {}
+}
