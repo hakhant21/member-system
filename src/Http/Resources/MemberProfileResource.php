@@ -1,9 +1,13 @@
 <?php
 
-namespace Det\Members\Http\Resources;
+namespace DET\Members\Http\Resources;
 
+use DET\Members\Models\MemberProfile;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin MemberProfile
+ */
 class MemberProfileResource extends JsonResource
 {
     public function toArray($request)
@@ -11,8 +15,8 @@ class MemberProfileResource extends JsonResource
         return [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'full_name' => $this->first_name . ' ' . $this->last_name, // Accessor logic
-            'initials' => substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1),
+            'full_name' => $this->first_name.' '.$this->last_name, // Accessor logic
+            'initials' => substr($this->first_name, 0, 1).substr($this->last_name, 0, 1),
             'avatar' => $this->avatar,
             'age' => $this->date_of_birth ? $this->date_of_birth->age : null,
             'settings' => $this->settings,

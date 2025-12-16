@@ -1,22 +1,35 @@
 <?php
 
-namespace Det\Members\Models;
+namespace DET\Members\Models;
 
+use DET\Members\Database\Factories\MemberFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Builder;
-use Det\Members\Database\Factories\MemberFactory;
 
-
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $phone
+ * @property bool $is_active
+ * @property \Illuminate\Support\Carbon|null $last_login_at
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property-read MemberProfile|null $profile
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ */
 class Member extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     protected $table = 'members';
+
     public $guard_name = 'member'; // Important for Spatie
 
     protected $fillable = [
@@ -42,7 +55,7 @@ class Member extends Authenticatable
     ];
 
     // Relationship to Profile
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(MemberProfile::class);
     }
@@ -60,7 +73,7 @@ class Member extends Authenticatable
 
         // 2. Filter by Role
         $query->when($filters['role'] ?? null, function ($q, $role) {
-            $q->whereHas('roles', fn($sub) => $sub->where('name', $role));
+            $q->whereHas('roles', fn ($sub) => $sub->where('name', $role));
         });
 
         // 3. Filter by Active Status

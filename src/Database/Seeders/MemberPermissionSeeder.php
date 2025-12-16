@@ -1,6 +1,6 @@
 <?php
 
-namespace Det\Members\Database\Seeders;
+namespace DET\Members\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -28,7 +28,7 @@ class MemberPermissionSeeder extends Seeder
         }
 
         // 2. Define Roles & Assign Permissions
-        
+
         // Member Admin (All permissions)
         $adminRole = Role::firstOrCreate(['name' => 'member_admin', 'guard_name' => 'member']);
         $adminRole->syncPermissions($permissions);

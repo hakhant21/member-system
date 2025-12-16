@@ -1,29 +1,29 @@
 <?php
 
-namespace Det\Members\Tests;
+namespace DET\Members\Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
-use Det\Members\MemberServiceProvider;
-use Spatie\Permission\PermissionServiceProvider;
-use Laravel\Sanctum\SanctumServiceProvider;
+use DET\Members\MemberServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\SanctumServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Permission\PermissionServiceProvider;
 
 class TestCase extends Orchestra
 {
     use RefreshDatabase;
 
-    public $admin; 
+    public $admin;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // 1. Run Spatie Migrations (Keep this, it works)
         $migration = include __DIR__.'/../vendor/spatie/laravel-permission/database/migrations/create_permission_tables.php.stub';
         $migration->up();
-        
+
         // 2. 🟢 FIX: Load Sanctum Migrations using absolute path
-        $this->loadMigrationsFrom(__DIR__ . '/../vendor/laravel/sanctum/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../vendor/laravel/sanctum/database/migrations');
     }
 
     protected function getPackageProviders($app)
@@ -35,14 +35,21 @@ class TestCase extends Orchestra
         ];
     }
 
+    protected function getPackageAliases($app)
+    {
+        return [
+            'MemberSystem' => \DET\Members\Facades\MemberSystem::class,
+        ];
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         // 1. Database
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
 
         // 2. Auth Guards & Providers
@@ -53,7 +60,7 @@ class TestCase extends Orchestra
 
         $app['config']->set('auth.providers.members', [
             'driver' => 'eloquent',
-            'model' => \Det\Members\Models\Member::class,
+            'model' => \DET\Members\Models\Member::class,
         ]);
 
         // 3. Sanctum Config

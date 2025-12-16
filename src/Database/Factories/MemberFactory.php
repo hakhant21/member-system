@@ -1,8 +1,8 @@
 <?php
 
-namespace Det\Members\Database\Factories;
+namespace DET\Members\Database\Factories;
 
-use Det\Members\Models\Member;
+use DET\Members\Models\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -15,7 +15,7 @@ class MemberFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => 'password', 
+            'password' => 'password',
             'phone' => $this->faker->phoneNumber(),
             'is_active' => true,
             'email_verified_at' => now(),

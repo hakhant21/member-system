@@ -1,10 +1,10 @@
 <?php
 
-namespace Det\Members\Http\Controllers;
+namespace DET\Members\Http\Controllers;
 
-use Det\Members\Services\Contracts\MemberServiceInterface;
-use Det\Members\Http\Requests\UpdateProfileRequest;
-use Det\Members\Http\Resources\MemberResource;
+use DET\Members\Http\Requests\UpdateProfileRequest;
+use DET\Members\Http\Resources\MemberResource;
+use DET\Members\Services\Contracts\MemberServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -32,12 +32,12 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request)
     {
         $member = $request->user();
-        
+
         $this->memberService->updateProfile($member, $request->validated());
 
         return response()->json([
             'message' => 'Profile updated successfully.',
-            'data' => new MemberResource($member->refresh())
+            'data' => new MemberResource($member->refresh()),
         ]);
     }
 
@@ -58,7 +58,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'message' => 'Avatar uploaded successfully.',
-            'avatar_url' => $path 
+            'avatar_url' => $path,
         ]);
     }
 }

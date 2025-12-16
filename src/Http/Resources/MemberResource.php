@@ -1,9 +1,13 @@
 <?php
 
-namespace Det\Members\Http\Resources;
+namespace DET\Members\Http\Resources;
 
+use DET\Members\Models\Member;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Member
+ */
 class MemberResource extends JsonResource
 {
     public function toArray($request)

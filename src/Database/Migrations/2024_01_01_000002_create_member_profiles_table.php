@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('member_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
-            
+
             // Personal
             $table->string('first_name', 100)->nullable();
             $table->string('last_name', 100)->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female', 'other', 'prefer_not_to_say'])->nullable();
             $table->string('avatar')->nullable();
             $table->text('bio')->nullable();
-            
+
             // Address
             $table->string('address')->nullable();
             $table->string('city', 100)->nullable();
@@ -45,7 +45,7 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index(['first_name', 'last_name']);
         });
     }

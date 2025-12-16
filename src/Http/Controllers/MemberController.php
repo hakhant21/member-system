@@ -1,13 +1,12 @@
 <?php
 
-namespace Det\Members\Http\Controllers;
+namespace DET\Members\Http\Controllers;
 
-use Det\Members\Services\Contracts\MemberServiceInterface;
-use Det\Members\Http\Requests\StoreMemberRequest;
-use Det\Members\Http\Resources\MemberResource;
+use DET\Members\Http\Requests\StoreMemberRequest;
+use DET\Members\Http\Resources\MemberResource;
+use DET\Members\Services\Contracts\MemberServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Http\JsonResponse;
 
 class MemberController extends Controller
 {
@@ -40,7 +39,7 @@ class MemberController extends Controller
     public function store(StoreMemberRequest $request)
     {
         // 4. Validation is handled automatically by StoreMemberRequest before reaching here.
-        
+
         // 5. Call Service to create data
         $member = $this->memberService->createMember($request->validated());
 
@@ -55,10 +54,10 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-        // We can add a getMemberById method to the service later, 
+        // We can add a getMemberById method to the service later,
         // or use the Model directly for simple finds if permitted.
-        $member = \Det\Members\Models\Member::with('profile', 'roles')->findOrFail($id);
-        
+        $member = \DET\Members\Models\Member::with('profile', 'roles')->findOrFail($id);
+
         return new MemberResource($member);
     }
 
@@ -66,16 +65,16 @@ class MemberController extends Controller
     {
         // Add validation here or create UpdateMemberRequest
         $data = $request->validate([
-            'email' => 'email|unique:members,email,' . $id,
+            'email' => 'email|unique:members,email,'.$id,
             'name' => 'string|max:255',
-            'phone' => 'nullable|string'
+            'phone' => 'nullable|string',
         ]);
 
         $member = $this->memberService->updateMember($id, $data);
 
         return response()->json([
             'message' => 'Member updated successfully.',
-            'data' => new MemberResource($member)
+            'data' => new MemberResource($member),
         ]);
     }
 
@@ -85,6 +84,7 @@ class MemberController extends Controller
     public function destroy($id)
     {
         $this->memberService->deleteMember($id);
+
         return response()->json(['message' => 'Member deleted successfully.']);
     }
 
@@ -94,19 +94,20 @@ class MemberController extends Controller
     public function toggleStatus(Request $request, $id)
     {
         $request->validate(['status' => 'required|boolean']);
-        
+
         $member = $this->memberService->toggleStatus($id, $request->status);
-        
+
         $status = $request->status ? 'activated' : 'deactivated';
+
         return response()->json(['message' => "Member {$status} successfully."]);
     }
 
     public function assignRole(Request $request, $id)
     {
         $request->validate(['role' => 'required|string|exists:roles,name']);
-        
+
         $this->memberService->assignRole($id, $request->role);
-        
+
         return response()->json(['message' => "Role '{$request->role}' assigned successfully."]);
     }
 
@@ -116,14 +117,15 @@ class MemberController extends Controller
     public function removeRole(Request $request, $id)
     {
         $request->validate(['role' => 'required|string']);
-        
-        $member = \Det\Members\Models\Member::findOrFail($id);
-        
+
+        $member = \DET\Members\Models\Member::findOrFail($id);
+
         if ($member->hasRole($request->role)) {
             $member->removeRole($request->role);
+
             return response()->json(['message' => "Role '{$request->role}' removed successfully."]);
         }
-        
-        return response()->json(['message' => "Member does not have this role."], 404);
+
+        return response()->json(['message' => 'Member does not have this role.'], 404);
     }
 }

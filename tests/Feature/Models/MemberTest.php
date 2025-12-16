@@ -1,26 +1,26 @@
 <?php
 
-namespace Det\Members\Tests\Feature\Models;
+namespace DET\Members\Tests\Feature\Models;
 
-use Det\Members\Models\Member;
-use Det\Members\Models\MemberProfile;
+use DET\Members\Models\Member;
+use DET\Members\Models\MemberProfile;
+use DET\Members\Tests\TestCase;
 use Spatie\Permission\Models\Role;
-use Det\Members\Tests\TestCase;
 
-/** 
+/**
  * 🟢 ADD THIS BLOCK
- * @var TestCase $this 
+ *
+ * @var TestCase $this
  */
-
 beforeEach(function () {
-    $this->artisan('migrate'); 
+    $this->artisan('migrate');
 });
 
 it('can create a member with soft deletes', function () {
     $member = Member::create([
         'email' => 'test@example.com',
         'password' => bcrypt('password'),
-        'name' => 'Test User'
+        'name' => 'Test User',
     ]);
 
     expect($member->exists)->toBeTrue();
@@ -41,11 +41,11 @@ it('can attach a profile with json settings', function () {
         'member_id' => $member->id,
         'first_name' => 'John',
         'settings' => ['theme' => 'dark'],
-        'preferences' => ['notifications' => true]
+        'preferences' => ['notifications' => true],
     ]);
 
     $retrieved = MemberProfile::first();
-    
+
     expect($retrieved->settings)->toBeArray();
     expect($retrieved->settings['theme'])->toBe('dark');
     expect($member->profile->first_name)->toBe('John');
@@ -53,7 +53,7 @@ it('can attach a profile with json settings', function () {
 
 it('can assign spatie roles to member', function () {
     $role = Role::create(['name' => 'member_admin', 'guard_name' => 'member']);
-    
+
     $member = Member::create([
         'email' => 'admin@example.com',
         'password' => 'secret',

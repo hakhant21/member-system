@@ -1,6 +1,6 @@
 <?php
 
-namespace Det\Members\Http\Requests;
+namespace DET\Members\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,7 +19,7 @@ class StoreMemberRequest extends FormRequest
             'password' => 'required|string|min:8|confirmed',
             'name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
-            
+
             // Profile Rules (nested array)
             'profile.first_name' => 'nullable|string|max:100',
             'profile.last_name' => 'nullable|string|max:100',

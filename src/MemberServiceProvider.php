@@ -1,11 +1,11 @@
 <?php
 
-namespace Det\Members;
+namespace DET\Members;
 
+use DET\Members\Console\Commands\InstallMemberSystem;
+use DET\Members\Services\Contracts\MemberServiceInterface;
+use DET\Members\Services\MemberService;
 use Illuminate\Support\ServiceProvider;
-use Det\Members\Services\Contracts\MemberServiceInterface;
-use Det\Members\Services\MemberService;
-use Det\Members\Console\Commands\InstallMemberSystem;
 
 class MemberServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,7 @@ class MemberServiceProvider extends ServiceProvider
     {
         // 1. Merge Config
         $this->mergeConfigFrom(
-            __DIR__ . '/config/members.php', 'member-system'
+            __DIR__.'/config/members.php', 'member-system'
         );
 
         // 2. Bind Interface to Implementation (Dependency Injection)
@@ -22,8 +22,8 @@ class MemberServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadMigrationsFrom(__DIR__.'/Database/Migrations');
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
 
         // 3. Register Command
         if ($this->app->runningInConsole()) {
@@ -33,7 +33,7 @@ class MemberServiceProvider extends ServiceProvider
 
             // 4. Publish Config
             $this->publishes([
-                __DIR__ . '/config/members.php' => config_path('member-system.php'),
+                __DIR__.'/config/members.php' => config_path('member-system.php'),
             ], 'member-system-config');
         }
     }

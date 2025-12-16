@@ -5,12 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Det\\Members\\": "src/"
+            "DET\\Members\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Det\\Members\\Tests\\": "tests/"
+            "DET\\Members\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -28,13 +28,28 @@
     "require-dev": {
         "pestphp/pest": "^2.0|^3.0",
         "pestphp/pest-plugin-laravel": "^2.0|^3.0",
-        "orchestra/testbench": "^8.0|^9.0"
+        "orchestra/testbench": "^8.0|^9.0",
+        "laravel/pint": "^1.13",
+        "nunomaduro/larastan": "^2.0"
+    },
+    "scripts": {
+        "pint": "pint",
+        "analyse": "phpstan analyse --memory-limit=2G",
+        "test": "pest",
+        "check-all": [
+            "@pint",
+            "@analyse",
+            "@test"
+        ]
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Det\\Members\\MemberServiceProvider"
-            ]
+                "DET\\Members\\MemberServiceProvider"
+            ],
+            "aliases": {
+                "MemberSystem": "DET\\Members\\Facades\\MemberSystem"
+            }
         }
     },
     "config": {

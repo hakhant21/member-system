@@ -1,10 +1,9 @@
 <?php
 
-namespace Det\Members\Services;
+namespace DET\Members\Services;
 
-use Det\Members\Services\Contracts\MemberServiceInterface;
-use Det\Members\Models\Member;
-use Det\Members\Models\MemberProfile;
+use DET\Members\Models\Member;
+use DET\Members\Services\Contracts\MemberServiceInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,7 +45,7 @@ class MemberService implements MemberServiceInterface
     public function updateMember(int $id, array $data)
     {
         $member = Member::findOrFail($id);
-        
+
         DB::transaction(function () use ($member, $data) {
             $member->update($data);
 
@@ -102,6 +101,7 @@ class MemberService implements MemberServiceInterface
     {
         $member = Member::findOrFail($id);
         $member->delete(); // Soft delete
+
         return true;
     }
 
@@ -109,6 +109,7 @@ class MemberService implements MemberServiceInterface
     {
         $member = Member::findOrFail($id);
         $member->update(['is_active' => $status]);
+
         return $member;
     }
 
@@ -116,6 +117,7 @@ class MemberService implements MemberServiceInterface
     {
         $member = Member::findOrFail($id);
         $member->syncRoles([$role]); // Replace existing roles
+
         return $member;
     }
 }

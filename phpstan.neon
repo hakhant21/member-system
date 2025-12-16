@@ -1,0 +1,13 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - src/
+    
+    # Level 5 is good for standard strictness. 
+    # You can go up to 9 (hardest) or down to 0 (easiest).
+    level: 5
+
+    ignoreErrors:
+    # Optional: Add specific errors to ignore here if needed

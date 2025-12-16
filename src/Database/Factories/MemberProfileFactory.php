@@ -1,9 +1,9 @@
 <?php
 
-namespace Det\Members\Database\Factories;
+namespace DET\Members\Database\Factories;
 
-use Det\Members\Models\MemberProfile;
-use Det\Members\Models\Member;
+use DET\Members\Models\Member;
+use DET\Members\Models\MemberProfile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MemberProfileFactory extends Factory

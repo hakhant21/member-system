@@ -1,11 +1,23 @@
 <?php
 
-namespace Det\Members\Models;
+namespace DET\Members\Models;
 
+use DET\Members\Database\Factories\MemberProfileFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Det\Members\Database\Factories\MemberProfileFactory;
 
+/**
+ * @property int $id
+ * @property int $member_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string|null $avatar
+ * @property \Illuminate\Support\Carbon|null $date_of_birth
+ * @property array|null $settings
+ * @property array|null $preferences
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ */
 class MemberProfile extends Model
 {
     use SoftDeletes;
@@ -21,7 +33,7 @@ class MemberProfile extends Model
         'address', 'city', 'state', 'country', 'postal_code',
         'facebook', 'twitter', 'linkedin', 'instagram', 'website',
         'company', 'job_title', 'department',
-        'settings', 'preferences'
+        'settings', 'preferences',
     ];
 
     protected $casts = [
